@@ -36,7 +36,7 @@ for(let i = 0; i < 5; i++) {
 }
 console.log(valor)
 
-
+//O código cria uma variável cm valor 0, dps executa um loop for onde a variável i começa cm 0 e vai até 4 (menor que 5), e a cada vez q o loop "acontece", aumenta o valor em 1
 //2. Leia o código abaixo:
 const lista = [10, 11, 12, 15, 18, 19, 21, 23, 25, 27, 30]
 for (let numero of lista) {
@@ -46,9 +46,9 @@ for (let numero of lista) {
 }
 
     //a) O que vai ser impresso no console?
-
+//19, 21, 23, 25, 27, 30
     //b) Se eu quisesse acessar o **índice** de cada elemento dessa lista, o `for...of...` é suficiente? Se sim, o que poderia ser usado para fazer isso?
-
+//O for of n permite acessar diretamente o índice dos elementos, p isso, uma opção seria usar o entries() da array, que retorna o índice e o valor
 
 
 //3.Qual seria o resultado impresso no console, se o usuário digitasse o número 4 ?
@@ -62,6 +62,10 @@ for (let numero of lista) {
         console.log(linha)
         quantidadeAtual++
     }
+//*
+//**
+//***
+//****
 
 
 /*
@@ -98,6 +102,20 @@ for (let numero of lista) {
     
     c) Por fim, imprima o array com os nomes dos bichinhos no console
 */
+let quantidadePets = Number(ask.question("Quantos bichinhos de estimacao voce tem? "))
+
+if (quantidadePets === 0) {
+
+    console.log("Que pena! Você pode adotar um pet!")
+} else {
+    let nomesPets = []
+    for (let i = 0; i < quantidadePets; i++) {
+        let nomePet = ask.question(`Digite o nome do pet ${i + 1}: `)
+        nomesPets.push(nomePet)
+    }
+    
+    console.log("Os nomes dos seus bichinhos são:", nomesPets)
+}
 
 
 /*
@@ -114,4 +132,57 @@ for (let numero of lista) {
     e) Escreva um programa que imprima no console o maior e o menor números contidos no array original
 */
 
+const arrayOriginal = [24, 56, 8, 12, 90, 69, 11, 34]
+
+function Valores(array) {
+    for (let valor of array) {
+        console.log(valor)
+    }
+}
+
+function DivididoPor10(array) {
+    for (let valor of array) {
+        console.log(valor / 10)
+    }
+}
+
+function NumerosPares(array) {
+    const numerosPares = array.filter((numero) => numero % 2 === 0)
+    console.log(numerosPares)
+}
+
+function ArrayComStrings(array) {
+    const arrayComStrings = array.map((numero, indice) => `O valor do indice ${indice} é: ${numero}`)
+    console.log(arrayComStrings)
+}
+
+function MaiorEMenor(array) {
+    const maiorNumero = Math.max(...array)
+    const menorNumero = Math.min(...array)
+    console.log("Maior número:", maiorNumero)
+    console.log("Menor número:", menorNumero)
+}
+
+Valores(arrayOriginal)
+DivididoPor10(arrayOriginal)
+NumerosPares(arrayOriginal)
+ArrayComStrings(arrayOriginal)
+MaiorEMenor(arrayOriginal)
+function imprimirArrayComStrings(array) {
+    const arrayComStrings = array.map((numero, indice) => `O elemento do índex ${indice} é: ${numero}`)
+    console.log(arrayComStrings)
+}
+
+function imprimirMaiorEMenor(array) {
+    const maiorNumero = Math.max(...array)
+    const menorNumero = Math.min(...array)
+    console.log("Maior número:", maiorNumero)
+    console.log("Menor número:", menorNumero)
+}
+
+imprimirValores(arrayOriginal)
+imprimirDivididoPor10(arrayOriginal)
+imprimirNumerosPares(arrayOriginal)
+imprimirArrayComStrings(arrayOriginal)
+imprimirMaiorEMenor(arrayOriginal)
 
