@@ -1,1 +1,118 @@
-https://satisfying-trust-330.notion.site/Trabalho-Final-Hemocentro-ea4d33e0d79248a5826c3fae64942a85
+const readline = require('readline-sync') // importando o readline... pq sim né kkk
+
+let doadores = [] // array vazio pra galera dos doadores... bora cadastrar
+
+function cadastrarDoador() {
+    console.log("\n===== CADASTRAR DOADOR =====") // título só pra ficar bonitinho
+    const nome = readline.question("Nome do doador: ") // pegando o nome do doador... simples
+    const idade = readline.questionInt("Idade do doador: ") // idade, pq tem q saber né
+    const peso = readline.questionFloat("Peso do doador (kg): ") // peso... espero q ngm minta kk
+    const tipoSanguineo = readline.question("Tipo sanguíneo do doador: ").toUpperCase() // pegando o tipo de sangue, em capslock pq sim
+    const ultimaDoacao = readline.question("Data da última doação (dd/mm/aaaa): ") // última doação, isso é importante msm
+
+    const doador = { nome, idade, peso, tipoSanguineo, ultimaDoacao } // criando o objeto doador
+    doadores.push(doador) // jogando o doador na lista
+    console.log("\nDoador cadastrado com sucesso!\n") // feedback basiquinho
+}
+
+function listarDoadores() {
+    if (doadores.length === 0) { // se a lista tiver vazia, pq ngm quer doar sangue
+        console.log("\nNenhum doador cadastrado.\n") // avisando q tá vazio... triste
+        return
+    }
+
+    console.log("\n--------------------") // formatando a listinha
+    console.log("LISTAGEM DE DOADORES:")
+    console.log("--------------------")
+    console.log("NOME             | IDADE | PESO | TIPO SANGUÍNEO | ÚLTIMA DOAÇÃO")
+    console.log("-----------------------------------------------------------------")
+
+    doadores.forEach(doador => {
+        console.log(${doador.nome.padEnd(16)} | ${doador.idade.toString().padEnd(5)} | ${doador.peso.toString().padEnd(4)} | ${doador.tipoSanguineo.padEnd(13)} | ${doador.ultimaDoacao}) // listando cada um bonitinho
+    })
+    console.log("-----------------------------------------------------------------\n")
+}
+
+function buscarPorTipoSanguineo() {
+    const tipo = readline.question("\nDigite o tipo sanguíneo desejado: ").toUpperCase() // perguntando o tipo de sangue q querem achar
+    const resultado = doadores.filter(doador => doador.tipoSanguineo === tipo) // filtrando os doadores q batem com o tipo
+
+    if (resultado.length === 0) { // se ngm tiver o tipo... ops
+        console.log("\nNenhum doador encontrado com esse tipo sanguíneo.\n") // nada encontrado, bad vibes
+        return
+    }
+
+    console.log("\n------------------------") // se achou, bora listar
+    console.log("RESULTADO DA BUSCA:")
+    console.log("------------------------")
+    console.log("NOME             | IDADE | PESO | TIPO SANGUÍNEO | ÚLTIMA DOAÇÃO")
+    console.log("-----------------------------------------------------------------")
+
+    resultado.forEach(doador => {
+        console.log(${doador.nome.padEnd(16)} | ${doador.idade.toString().padEnd(5)} | ${doador.peso.toString().padEnd(4)} | ${doador.tipoSanguineo.padEnd(13)} | ${doador.ultimaDoacao}) // listando os achados
+    })
+    console.log("-----------------------------------------------------------------\n")
+}
+
+function buscarPorDataUltimaDoacao() {
+    const data = readline.question("\nDigite a data desejada (dd/mm/aaaa): ") // pedindo a data... pq faz sentido
+
+    const resultado = doadores.filter(doador => { // filtrando quem doou antes da data passada
+        const [diaDoador, mesDoador, anoDoador] = doador.ultimaDoacao.split('/').map(Number) // separando a data do doador
+        const [dia, mes, ano] = data.split('/').map(Number) // separando a data de comparação
+        const dataDoador = new Date(anoDoador, mesDoador - 1, diaDoador) // criando data do doador
+        const dataComparacao = new Date(ano, mes - 1, dia) // criando data de comparação
+        return dataDoador < dataComparacao // só passa se a doação for antes da data
+    })
+
+    if (resultado.length === 0) { // se ngm doou antes da data... tenso
+        console.log("\nNenhum doador encontrado com data de doação anterior a essa.\n") // feedback triste de novo
+        return
+    }
+
+    console.log("\n------------------------") // bora mostrar os achados de novo
+    console.log("RESULTADO DA BUSCA:")
+    console.log("------------------------")
+    console.log("NOME             | IDADE | PESO | TIPO SANGUÍNEO | ÚLTIMA DOAÇÃO")
+    console.log("-----------------------------------------------------------------")
+
+    resultado.forEach(doador => {
+        console.log(${doador.nome.padEnd(16)} | ${doador.idade.toString().padEnd(5)} | ${doador.peso.toString().padEnd(4)} | ${doador.tipoSanguineo.padEnd(13)} | ${doador.ultimaDoacao}) // listando o resultado final
+    })
+    console.log("-----------------------------------------------------------------\n")
+}
+
+function menu() {
+    let opcao = 0 // inicializando a opção
+    do {
+        console.log("\n===== SISTEMA DE CADASTRO DE DOADORES DE SANGUE =====") // o menu principal, estilo de sistema sério mas nem tanto
+        console.log("1. Cadastrar doador")
+        console.log("2. Listar doadores")
+        console.log("3. Buscar doador por tipo sanguíneo")
+        console.log("4. Buscar doador por data da última doação")
+        console.log("5. Sair") // se a pessoa cansar, tem a opção de sair kkk
+        opcao = readline.questionInt("Escolha uma opção: ") // perguntando o q o user quer fazer
+
+        switch (opcao) { // agora só confere qual opção e chama a função certa
+            case 1:
+                cadastrarDoador() // bora cadastrar
+                break
+            case 2:
+                listarDoadores() // listar os doadores
+                break
+            case 3:
+                buscarPorTipoSanguineo() // achar por tipo sanguíneo
+                break
+            case 4:
+                buscarPorDataUltimaDoacao() // buscar por data
+                break
+            case 5:
+                console.log("Saindo do sistema...") // o famoso "tchau"
+                break
+            default:
+                console.log("Opção inválida, tente novamente.") // se errar a opção, feedback básico
+        }
+    } while (opcao !== 5) // repete até o user querer sair
+}
+
+menu() // chama o menu pra começar tudo
